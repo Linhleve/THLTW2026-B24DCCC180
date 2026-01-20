@@ -30,10 +30,10 @@ const SanPhamPage: React.FC = () => {
 
 
     const columns = [
-        {title : 'ID', dataIndex: 'id', key: 'id' },
-        {title : 'Tên Sản Phẩm', dataIndex: 'name', key: 'name' },
-        {title : 'Giá', dataIndex: 'price', key: 'price', render: (price: number) => price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) },
-        {title : 'Số Lượng', dataIndex: 'quantity', key: 'quantity' },
+        {title : 'ID', dataIndex: 'id', key: 'id', align: 'center' as 'center' },
+        {title : 'Tên Sản Phẩm', dataIndex: 'name', key: 'name', align: 'center' as 'center' },
+        {title : 'Giá', dataIndex: 'price', key: 'price', render: (price: number) => price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }), align: 'center' as 'center' },
+        {title : 'Số Lượng', dataIndex: 'quantity', key: 'quantity', align: 'center' as 'center' },
         {
             title: 'Thao Tác',
             key: 'action',
@@ -47,6 +47,7 @@ const SanPhamPage: React.FC = () => {
                         <Button>Xóa</Button>
                     </Popconfirm>
             ),
+            align: "center" as "center",
         },
     ]
     return (
@@ -64,7 +65,7 @@ const SanPhamPage: React.FC = () => {
                 </Button>
             </div>
 
-            <Table rowKey="id" columns={columns} dataSource={danhSachLoc} />
+            <Table rowKey="id" columns={columns} dataSource={danhSachLoc}/>
 
             <Modal
                 title="Thêm sản phẩm"
