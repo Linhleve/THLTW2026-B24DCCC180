@@ -1,4 +1,5 @@
-﻿export default [
+﻿
+export default [
 	{
 		path: '/user',
 		layout: false,
@@ -42,6 +43,14 @@
 		icon: 'OrderedListOutlined',
 		component: './TodoList',
 	},
+
+	///
+	{
+		path: '/donhang-sanpham',
+		name: 'DonHang&SanPham',
+		component: './DonHang_SanPham',
+	},
+	///
 
 	// DANH MUC HE THONG
 	// {
