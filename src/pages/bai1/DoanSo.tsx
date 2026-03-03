@@ -63,13 +63,19 @@ const TroChoiDoanSo: React.FC = () => {
         placeholder="Nhập số từ 1 đến 100"
       />
 
-      <button onClick={xuLyDoanSo} disabled={daKetThuc}>
+      <button onClick={xuLyDoanSo} disabled={daKetThuc} style ={{ marginLeft: 10 }}>
         Đoán
       </button>
 
       <button onClick={choiLai} style={{ marginLeft: "10px" }}>
         Chơi lại
       </button>
+
+      <ul style= {{marginTop: 40}}>
+        <li>Hệ thống sẽ tạo một số ngẫu nhiên từ 1 đến 100.</li>
+        <li>Bạn có 10 lượt để đoán số đó.</li>
+        <li>Sau mỗi lượt đoán, hệ thống sẽ thông báo nếu số bạn đoán quá cao, quá thấp hoặc chính xác.</li>
+      </ul>
     </div>
   );
 };

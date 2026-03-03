@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Input, InputNumber, Button, List, Divider, Card, Space, message } from "antd";
+import "antd/dist/antd.css";
 
 interface LichHoc {
   id: number;
@@ -26,19 +28,23 @@ const QuanLyTienDo: React.FC = () => {
   const [idFormThemLich, setIdFormThemLich] = useState<number | null>(null);
   const [idDangSuaLich, setIdDangSuaLich] = useState<number | null>(null);
 
-
+  // Load dữ liệu từ localStorage
   useEffect(() => {
     const duLieu = localStorage.getItem("quanLyHocTap");
     if (duLieu) setDanhSachMon(JSON.parse(duLieu));
   }, []);
 
+  // Lưu dữ liệu vào localStorage
   useEffect(() => {
     localStorage.setItem("quanLyHocTap", JSON.stringify(danhSachMon));
   }, [danhSachMon]);
 
-
+  // ===== MÔN HỌC =====
   const themMonHoc = () => {
-    if (!tenMonMoi.trim()) return;
+    if (!tenMonMoi.trim()) {
+      message.warning("Vui lòng nhập tên môn học");
+      return;
+    }
     const monMoi: MonHoc = {
       id: Date.now(),
       tenMon: tenMonMoi,
@@ -65,6 +71,7 @@ const QuanLyTienDo: React.FC = () => {
       )
     );
     setIdDangSuaMon(null);
+    message.success("Đã lưu môn học");
   };
 
   const datMucTieu = (id: number, soGio: number) => {
@@ -75,7 +82,7 @@ const QuanLyTienDo: React.FC = () => {
     );
   };
 
-
+  // ===== LỊCH HỌC =====
   const capNhatInputLich = (idMon: number, truong: keyof LichHoc, giaTri: any) => {
     setLichDangNhap({
       ...lichDangNhap,
@@ -85,12 +92,18 @@ const QuanLyTienDo: React.FC = () => {
 
   const moFormThemLich = (idMon: number) => {
     setIdFormThemLich(idMon);
-    setLichDangNhap({ ...lichDangNhap, [idMon]: {} as LichHoc });
+    setLichDangNhap({
+      ...lichDangNhap,
+      [idMon]: { id: 0, ngayGio: "", thoiLuong: 0, noiDung: "", ghiChu: "" },
+    });
   };
 
   const themLichHoc = (idMon: number) => {
     const lich = lichDangNhap[idMon];
-    if (!lich?.ngayGio || !lich?.thoiLuong) return;
+    if (!lich?.ngayGio || lich.thoiLuong <= 0) {
+      message.warning("Vui lòng nhập đầy đủ ngày giờ và thời lượng > 0");
+      return;
+    }
 
     const lichMoi: LichHoc = { ...lich, id: Date.now() };
 
@@ -102,8 +115,12 @@ const QuanLyTienDo: React.FC = () => {
       )
     );
 
-    setLichDangNhap({ ...lichDangNhap, [idMon]: {} as LichHoc });
+    setLichDangNhap({
+      ...lichDangNhap,
+      [idMon]: { id: 0, ngayGio: "", thoiLuong: 0, noiDung: "", ghiChu: "" },
+    });
     setIdFormThemLich(null);
+    message.success("Đã thêm lịch học");
   };
 
   const xoaLich = (idMon: number, idLich: number) => {
@@ -114,6 +131,7 @@ const QuanLyTienDo: React.FC = () => {
           : mon
       )
     );
+    message.info("Đã xóa lịch học");
   };
 
   const batDauSuaLich = (idLich: number) => setIdDangSuaLich(idLich);
@@ -130,6 +148,7 @@ const QuanLyTienDo: React.FC = () => {
       )
     );
     setIdDangSuaLich(null);
+    message.success("Đã lưu lịch học");
   };
 
   const tinhTongGioThang = (mon: MonHoc) => {
@@ -143,137 +162,135 @@ const QuanLyTienDo: React.FC = () => {
       .reduce((tong, lich) => tong + lich.thoiLuong, 0);
   };
 
+  // ===== RENDER =====
   return (
     <div style={{ padding: 20 }}>
-      <h1>Quản Lý Học Tập</h1>
+      <h1>📚 Quản Lý Học Tập</h1>
 
-      <h2>Thêm môn học</h2>
-      <input
-        value={tenMonMoi}
-        onChange={(e) => setTenMonMoi(e.target.value)}
-        placeholder="Tên môn học"
-      />
-      <button onClick={themMonHoc} style={{ marginLeft: 10 }}>Thêm</button>
-      <hr />
+      <Space style={{ marginBottom: 20 }}>
+        <Input
+          placeholder="Tên môn học"
+          value={tenMonMoi}
+          onChange={(e) => setTenMonMoi(e.target.value)}
+        />
+        <Button type="primary" onClick={themMonHoc}>Thêm môn</Button>
+      </Space>
 
-      {danhSachMon.map((mon) => {
-        const tongGio = tinhTongGioThang(mon);
-        const daDat = tongGio >= mon.mucTieuThang;
+      <Divider />
 
-        return (
-          <div key={mon.id} style={{ border: "1px solid gray", margin: 10, padding: 10 }}>
-            {idDangSuaMon === mon.id ? (
-              <>
-                <input
-                  value={tenMonDangSua}
-                  onChange={(e) => setTenMonDangSua(e.target.value)}
-                />
-                <button onClick={() => luuSuaMon(mon.id)}>Lưu</button>
-              </>
-            ) : (
-              <>
-                <h2>{mon.tenMon}</h2>
-                <button onClick={() => batDauSuaMon(mon)}>Sửa môn</button>
-              </>
-            )}
-            <button onClick={() => xoaMon(mon.id)} style={{ marginLeft: 10 }}>Xoá môn</button>
+      <List
+        grid={{ gutter: 16, column: 1 }}
+        dataSource={danhSachMon}
+        renderItem={(mon) => {
+          const tongGio = tinhTongGioThang(mon);
+          const daDat = tongGio >= mon.mucTieuThang;
 
-            
-            <h3>Mục tiêu tháng:</h3>
-            <input
-              type="number"
-              defaultValue={mon.mucTieuThang}
-              onBlur={(e) => datMucTieu(mon.id, Number(e.target.value))}
-            />
-            <p>Tổng giờ tháng: {tongGio}</p>
-            <p>Trạng thái: {daDat ? "Đã đạt" : "Chưa đạt"}</p>
-            <hr />
+          return (
+            <List.Item>
+              <Card title={
+                idDangSuaMon === mon.id ? (
+                  <Space>
+                    <Input value={tenMonDangSua} onChange={(e) => setTenMonDangSua(e.target.value)} />
+                    <Button type="primary" onClick={() => luuSuaMon(mon.id)}>Lưu</Button>
+                  </Space>
+                ) : mon.tenMon
+              }>
+                <Space style={{ marginBottom: 10 }}>
+                  <Button onClick={() => batDauSuaMon(mon)}>Sửa môn</Button>
+                  <Button danger onClick={() => xoaMon(mon.id)}>Xóa môn</Button>
+                </Space>
 
-            {idFormThemLich === mon.id ? (
-              <div style={{ margin: "10px 0", padding: 10, border: "2px dashed gray" }}>
-                <h4>Thêm lịch học cho {mon.tenMon}</h4>
-                <input
-                  type="datetime-local"
-                  value={lichDangNhap[mon.id]?.ngayGio || ""}
-                  onChange={(e) => capNhatInputLich(mon.id, "ngayGio", e.target.value)}
-                  style={{ marginBottom: 10, display: "block" }}
-                />
-                <input
-                  type="number"
-                  placeholder="Thời lượng (giờ)"
-                  value={lichDangNhap[mon.id]?.thoiLuong || ""}
-                  onChange={(e) => capNhatInputLich(mon.id, "thoiLuong", Number(e.target.value))}
-                  style={{ marginBottom: 10, display: "block" }}
-                />
-                <input
-                  placeholder="Nội dung"
-                  value={lichDangNhap[mon.id]?.noiDung || ""}
-                  onChange={(e) => capNhatInputLich(mon.id, "noiDung", e.target.value)}
-                  style={{ marginBottom: 10, display: "block" }}
-                />
-                <input
-                  placeholder="Ghi chú"
-                  value={lichDangNhap[mon.id]?.ghiChu || ""}
-                  onChange={(e) => capNhatInputLich(mon.id, "ghiChu", e.target.value)}
-                  style={{ marginBottom: 10, display: "block" }}
-                />
-                <button onClick={() => themLichHoc(mon.id)} style={{ marginLeft: 10 }}>Lưu lịch</button>
-                <button onClick={() => setIdFormThemLich(null)} style={{ marginLeft: 5 }}>Huỷ</button>
-              </div>
-            ) : (
-              <button onClick={() => moFormThemLich(mon.id)}>Thêm lịch</button>
-            )}
+                <div style={{ marginBottom: 10 }}>
+                  <span>Mục tiêu tháng: </span>
+                  <InputNumber
+                    min={0}
+                    defaultValue={mon.mucTieuThang}
+                    onBlur={(value) => datMucTieu(mon.id, Number(value))}
+                  /> giờ
+                  <div>Tổng giờ tháng: {tongGio}h</div>
+                  <div>Trạng thái: {daDat ? "Đã đạt ✅" : "Chưa đạt ❌"}</div>
+                </div>
 
-            
-            <ul>
-              {mon.danhSachLich.map((lich) => (
-                <li key={lich.id} style={{ marginBottom: 5 }}>
-                  {idDangSuaLich === lich.id ? (
-                    <div style={{ border: "1px solid #aaa", padding: 5 }}>
-                      <input
+                {/* Form thêm lịch */}
+                {idFormThemLich === mon.id ? (
+                  <Card type="inner" style={{ marginBottom: 10 }}>
+                    <Space direction="vertical">
+                      <Input
                         type="datetime-local"
-                        value={lich.ngayGio}
-                        onChange={(e) =>
-                          luuSuaLich(mon.id, { ...lich, ngayGio: e.target.value })
-                        }
+                        value={lichDangNhap[mon.id]?.ngayGio || ""}
+                        onChange={(e) => capNhatInputLich(mon.id, "ngayGio", e.target.value)}
                       />
-                      <input
-                        type="number"
+                      <InputNumber
+                        min={0}
                         placeholder="Thời lượng (giờ)"
-                        value={lich.thoiLuong}
-                        onChange={(e) =>
-                          luuSuaLich(mon.id, { ...lich, thoiLuong: Number(e.target.value) })
-                        }
+                        value={lichDangNhap[mon.id]?.thoiLuong || ""}
+                        onChange={(value) => capNhatInputLich(mon.id, "thoiLuong", Number(value))}
                       />
-                      <input
+                      <Input
                         placeholder="Nội dung"
-                        value={lich.noiDung}
-                        onChange={(e) =>
-                          luuSuaLich(mon.id, { ...lich, noiDung: e.target.value })
-                        }
+                        value={lichDangNhap[mon.id]?.noiDung || ""}
+                        onChange={(e) => capNhatInputLich(mon.id, "noiDung", e.target.value)}
                       />
-                      <input
+                      <Input
                         placeholder="Ghi chú"
-                        value={lich.ghiChu}
-                        onChange={(e) =>
-                          luuSuaLich(mon.id, { ...lich, ghiChu: e.target.value })
-                        }
+                        value={lichDangNhap[mon.id]?.ghiChu || ""}
+                        onChange={(e) => capNhatInputLich(mon.id, "ghiChu", e.target.value)}
                       />
-                      <button onClick={() => setIdDangSuaLich(null)}>Lưu xong</button>
-                    </div>
-                  ) : (
-                    <>
-                      Ngày giờ: {lich.ngayGio}  |  Thòi lượng: {lich.thoiLuong}h  |  Nội dung: {lich.noiDung}  |  Ghi chú: {lich.ghiChu}
-                      <button onClick={() => batDauSuaLich(lich.id)} style={{ marginLeft: 10 }}>Sửa</button>
-                      <button onClick={() => xoaLich(mon.id, lich.id)} style={{ marginLeft: 5 }}>Xoá</button>
-                    </>
+                      <Space>
+                        <Button type="primary" onClick={() => themLichHoc(mon.id)}>Lưu lịch</Button>
+                        <Button onClick={() => setIdFormThemLich(null)}>Huỷ</Button>
+                      </Space>
+                    </Space>
+                  </Card>
+                ) : (
+                  <Button type="dashed" onClick={() => moFormThemLich(mon.id)}>Thêm lịch</Button>
+                )}
+
+                {/* Danh sách lịch */}
+                <List
+                  size="small"
+                  dataSource={mon.danhSachLich}
+                  renderItem={(lich) => (
+                    <List.Item>
+                      {idDangSuaLich === lich.id ? (
+                        <Space direction="vertical">
+                          <Input
+                            type="datetime-local"
+                            value={lich.ngayGio}
+                            onChange={(e) => luuSuaLich(mon.id, { ...lich, ngayGio: e.target.value })}
+                          />
+                          <InputNumber
+                            min={0}
+                            value={lich.thoiLuong}
+                            onChange={(value) => luuSuaLich(mon.id, { ...lich, thoiLuong: Number(value) })}
+                          />
+                          <Input
+                            value={lich.noiDung}
+                            onChange={(e) => luuSuaLich(mon.id, { ...lich, noiDung: e.target.value })}
+                          />
+                          <Input
+                            value={lich.ghiChu}
+                            onChange={(e) => luuSuaLich(mon.id, { ...lich, ghiChu: e.target.value })}
+                          />
+                          <Button type="primary" onClick={() => setIdDangSuaLich(null)}>Lưu xong</Button>
+                        </Space>
+                      ) : (
+                        <>
+                          Ngày giờ: {lich.ngayGio} | Thời lượng: {lich.thoiLuong}h | Nội dung: {lich.noiDung} | Ghi chú: {lich.ghiChu}
+                          <Space>
+                            <Button onClick={() => batDauSuaLich(lich.id)}>Sửa</Button>
+                            <Button danger onClick={() => xoaLich(mon.id, lich.id)}>Xóa</Button>
+                          </Space>
+                        </>
+                      )}
+                    </List.Item>
                   )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
+                />
+              </Card>
+            </List.Item>
+          );
+        }}
+      />
     </div>
   );
 };
