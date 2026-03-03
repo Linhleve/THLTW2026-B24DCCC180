@@ -201,14 +201,14 @@ const QuanLyTienDo: React.FC = () => {
                 </Space>
 
                 <div style={{ marginBottom: 10 }}>
-                  <span>Mục tiêu tháng: </span>
-                  <InputNumber
+                <span>Mục tiêu tháng: </span>
+                <InputNumber
                     min={0}
-                    defaultValue={mon.mucTieuThang}
-                    onBlur={(value) => datMucTieu(mon.id, Number(value))}
-                  /> giờ
-                  <div>Tổng giờ tháng: {tongGio}h</div>
-                  <div>Trạng thái: {daDat ? "Đã đạt ✅" : "Chưa đạt ❌"}</div>
+                    value={mon.mucTieuThang}
+                    onChange={(value) => datMucTieu(mon.id, Number(value))}
+                /> giờ
+                <div>Tổng giờ tháng: {tongGio}h</div>
+                <div>Trạng thái: {tongGio >= mon.mucTieuThang ? "Đã đạt ✅" : "Chưa đạt ❌"}</div>
                 </div>
 
               
