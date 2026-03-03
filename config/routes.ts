@@ -46,9 +46,14 @@ export default [
 
 	///
 	{
-		path: '/donhang-sanpham',
-		name: 'DonHang&SanPham',
-		component: './DonHang_SanPham',
+		path: '/bai1',
+		name: 'Bài 1 - Đoán số',
+		component: './bai1',
+	},
+	{
+		path: '/bai2',
+		name: 'Bài 2 - Quản lý tiến độ học tập',
+		component: './bai2',
 	},
 	///
 
