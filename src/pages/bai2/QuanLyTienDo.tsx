@@ -28,18 +28,18 @@ const QuanLyTienDo: React.FC = () => {
   const [idFormThemLich, setIdFormThemLich] = useState<number | null>(null);
   const [idDangSuaLich, setIdDangSuaLich] = useState<number | null>(null);
 
-  // Load dữ liệu từ localStorage
+  
   useEffect(() => {
     const duLieu = localStorage.getItem("quanLyHocTap");
     if (duLieu) setDanhSachMon(JSON.parse(duLieu));
   }, []);
 
-  // Lưu dữ liệu vào localStorage
+  
   useEffect(() => {
     localStorage.setItem("quanLyHocTap", JSON.stringify(danhSachMon));
   }, [danhSachMon]);
 
-  // ===== MÔN HỌC =====
+
   const themMonHoc = () => {
     if (!tenMonMoi.trim()) {
       message.warning("Vui lòng nhập tên môn học");
@@ -82,7 +82,7 @@ const QuanLyTienDo: React.FC = () => {
     );
   };
 
-  // ===== LỊCH HỌC =====
+
   const capNhatInputLich = (idMon: number, truong: keyof LichHoc, giaTri: any) => {
     setLichDangNhap({
       ...lichDangNhap,
@@ -162,10 +162,10 @@ const QuanLyTienDo: React.FC = () => {
       .reduce((tong, lich) => tong + lich.thoiLuong, 0);
   };
 
-  // ===== RENDER =====
+
   return (
     <div style={{ padding: 20 }}>
-      <h1>📚 Quản Lý Học Tập</h1>
+      <h1> Quản Lý Học Tập</h1>
 
       <Space style={{ marginBottom: 20 }}>
         <Input
@@ -211,7 +211,7 @@ const QuanLyTienDo: React.FC = () => {
                   <div>Trạng thái: {daDat ? "Đã đạt ✅" : "Chưa đạt ❌"}</div>
                 </div>
 
-                {/* Form thêm lịch */}
+              
                 {idFormThemLich === mon.id ? (
                   <Card type="inner" style={{ marginBottom: 10 }}>
                     <Space direction="vertical">
@@ -246,7 +246,7 @@ const QuanLyTienDo: React.FC = () => {
                   <Button type="dashed" onClick={() => moFormThemLich(mon.id)}>Thêm lịch</Button>
                 )}
 
-                {/* Danh sách lịch */}
+                
                 <List
                   size="small"
                   dataSource={mon.danhSachLich}
