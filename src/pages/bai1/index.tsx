@@ -1,14 +1,14 @@
 import { Tabs } from "antd";
-import DoanSo from "./DoanSo";
+import OanTuTi from "./OanTuTi";
 
-const gameDoanSoPage = () => {
+const GameDoanSoPage = () => {
   return (
-    <Tabs defaultActiveKey = "doan-so">
-      <Tabs.TabPane tab="Đoán số" key="doan-so">
-        <DoanSo />
+    <Tabs defaultActiveKey="oan-tu-ti">
+      <Tabs.TabPane tab="Oẳn tù tì" key="oan-tu-ti">
+        <OanTuTi />
       </Tabs.TabPane>
-    </Tabs> 
+    </Tabs>
   );
 };
 
-export default gameDoanSoPage;
+export default GameDoanSoPage;

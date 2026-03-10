@@ -35,6 +35,6 @@
 		".stylelintrc.js",
 		".prettierrc.js",
 		"mock/*"
-, "../../../Javascript/components", "../../../Javascript/models"	],
+, "../../../Javascript/components", "../../../Javascript/models", "src/pages/bai1/OanTuTi.tsx"	],
 	"exclude": ["node_modules", "build", "dist", "scripts", "src/.umi/*", "webpack", "jest"]
 }

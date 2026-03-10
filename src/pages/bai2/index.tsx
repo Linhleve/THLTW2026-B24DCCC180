@@ -1,8 +1,8 @@
-import QuanLyTienDo from "./QuanLyTienDo";
+import QuanLyNganHangCauHoi from "./QuanLyNganHangCauHoi";
 
-const QuanLyTienDoPage = () => {
+const QuanLyNganHangCauHoiPage = () => {
     return (
-        <QuanLyTienDo />
+        <QuanLyNganHangCauHoi />
     )
 }
-export default QuanLyTienDoPage;
+export default QuanLyNganHangCauHoiPage;
