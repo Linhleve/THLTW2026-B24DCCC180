@@ -224,7 +224,7 @@ const DatLichHen: React.FC = () => {
 
   return (
     <Tabs defaultActiveKey="1">
-      <TabPane tab="1️⃣ Quản lý nhân viên & dịch vụ" key="1">
+      <TabPane tab="1. Quản lý nhân viên & dịch vụ" key="1">
         <h3>Nhân viên</h3>
         <Button type="primary" style={{ marginBottom: 10 }} onClick={() => hienThiModalNV()}>
           Thêm nhân viên
@@ -322,8 +322,8 @@ const DatLichHen: React.FC = () => {
         </Modal>
       </TabPane>
 
-      <TabPane tab="2️⃣ Quản lý lịch hẹn" key="2">
-        <h3>📅 Danh sách lịch hẹn</h3>
+      <TabPane tab="2. Quản lý lịch hẹn" key="2">
+        <h3>Form đặt lịch hẹn</h3>
         <Form form={formLH} layout="vertical" onFinish={themLichHen} style={{ marginBottom: 20 }}>
           <Form.Item label="Nhân viên" name="nhanVienId" rules={[{ required: true }]}>
             <Select placeholder="Chọn nhân viên">
@@ -347,7 +347,7 @@ const DatLichHen: React.FC = () => {
           </Form.Item>
           <Button type="primary" htmlType="submit">Đặt lịch</Button>
         </Form>
-
+        <h3>Danh sách lịch hẹn</h3>
         <Table
           dataSource={dsLichHen.map((l) => {
             const nv = dsNhanVien.find((e) => e.id === l.nhanVienId);
@@ -428,8 +428,8 @@ const DatLichHen: React.FC = () => {
         />
       </TabPane>
 
-      <TabPane tab="3️⃣ Đánh giá" key="3">
-        <h3>⭐ Đánh giá nhân viên</h3>
+      <TabPane tab="3. Đánh giá" key="3">
+        <h3>Đánh giá nhân viên</h3>
         <Table
           dataSource={danhGiaNhanVien.map((nv) => ({
             key: nv.id,
@@ -446,8 +446,8 @@ const DatLichHen: React.FC = () => {
         />
       </TabPane>
 
-      <TabPane tab="4️⃣ Thống kê" key="4">
-        <h3>📊 Số lượng lịch hẹn theo ngày</h3>
+      <TabPane tab="4. Thống kê" key="4">
+        <h3>Số lượng lịch hẹn theo ngày</h3>
         <Table
           dataSource={Object.entries(thongKe.soLuongTheoNgay).map(([ngay, sl]) => ({ key: ngay, ngay, sl }))} 
           columns={[
@@ -457,7 +457,7 @@ const DatLichHen: React.FC = () => {
           pagination={false}
         />
 
-        <h3 style={{ marginTop: 20 }}>💰 Doanh thu theo dịch vụ</h3>
+        <h3 style={{ marginTop: 20 }}>Doanh thu theo dịch vụ</h3>
         <Table
           dataSource={Object.entries(thongKe.doanhThuTheoDV).map(([dv, dt]) => ({ key: dv, dv, dt }))} 
           columns={[
@@ -467,7 +467,7 @@ const DatLichHen: React.FC = () => {
           pagination={false}
         />
 
-        <h3 style={{ marginTop: 20 }}>👤 Doanh thu theo nhân viên</h3>
+        <h3 style={{ marginTop: 20 }}>Doanh thu theo nhân viên</h3>
         <Table
           dataSource={Object.entries(thongKe.doanhThuTheoNV).map(([nv, dt]) => ({ key: nv, nv, dt }))} 
           columns={[
