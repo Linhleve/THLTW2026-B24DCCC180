@@ -1,4 +1,5 @@
-﻿
+﻿import { icons } from "antd/lib/image/PreviewGroup";
+
 export default [
 	{
 		path: '/user',
@@ -46,15 +47,12 @@ export default [
 
 	///
 	{
-		path: '/bai1',
-		name: 'Bài 1 - Trò Chơi Oẳn Tù Tì',
-		component: './bai1',
+		path: '/datlichhen',
+		name: 'Đặt Lịch Hẹn',
+		icon: 'CalendarOutlined',
+		component: './ThucHanh03',
 	},
-	{
-		path: '/bai2',
-		name: 'Bài 2 - Quản Lý Ngân Hàng Câu Hỏi',
-		component: './bai2',
-	},
+
 	///
 
 	// DANH MUC HE THONG
