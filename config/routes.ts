@@ -47,10 +47,10 @@ export default [
 
 	///
 	{
-		path: '/datlichhen',
-		name: 'Đặt Lịch Hẹn',
-		icon: 'CalendarOutlined',
-		component: './ThucHanh03',
+		path: '/thuc-hanh-04',
+		name: 'Quản Lý Sổ',
+		icon: 'BookOutlined',
+		component: './ThucHanh04',
 	},
 
 	///
