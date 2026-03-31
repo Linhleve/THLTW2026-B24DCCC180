@@ -47,10 +47,10 @@ export default [
 
 	///
 	{
-		path: '/thuc-hanh-04',
-		name: 'Quản Lý Sổ',
+		path: '/thuc-hanh-05',
+		name: 'Quản Lý Câu Lạc Bộ vs ĐK',
 		icon: 'BookOutlined',
-		component: './ThucHanh04',
+		component: './ThucHanh05',
 	},
 
 	///
