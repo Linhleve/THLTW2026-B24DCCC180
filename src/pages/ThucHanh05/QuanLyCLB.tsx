@@ -3,7 +3,6 @@ import moment from 'moment'
 import { Table, Button, Modal, Form, Input, Select, DatePicker, Upload, Popconfirm, Tabs, Row, Col, Statistic, Space, message, Avatar } from 'antd'
 import type { ColumnsType } from 'antd'
 import { UploadOutlined, PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
-// Dùng react-apexcharts thay vì @ant-design/plots để tương thích React 17
 import Chart from 'react-apexcharts'
 
 type CLB = {
@@ -42,7 +41,6 @@ const { TabPane } = Tabs
 const { TextArea } = Input
 
 export default function QuanLyCLB() {
-	// Dữ liệu mẫu (mock)
 	const [danhSachClb, setDanhSachClb] = useState<CLB[]>([
 		{ id: 'clb1', ten: 'CLB Bóng Đá', ngayThanhLap: '2020-09-01', moTa: '<p>CLB bóng đá</p>', chuNhiem: 'Nguyễn A', hoatDong: true },
 		{ id: 'clb2', ten: 'CLB Robotics', ngayThanhLap: '2019-03-15', moTa: '<p>Robotics</p>', chuNhiem: 'Trần B', hoatDong: true },
@@ -57,7 +55,6 @@ export default function QuanLyCLB() {
 		{ id: 't1', hoTen: 'Phạm Thị D', email: 'd@example.com', sdt: '0900654321', clbId: 'clb1' },
 	])
 
-	// Modal và form state
 	const [hienThiModalClb, setHienThiModalClb] = useState(false)
 	const [clbHienTai, setClbHienTai] = useState<CLB | null>(null)
 	const [formClb] = Form.useForm()
@@ -80,12 +77,11 @@ export default function QuanLyCLB() {
 	const [hienThiModalChuyenCLB, setHienThiModalChuyenCLB] = useState(false)
 	const [clbDichId, setClbDichId] = useState<string | undefined>(undefined)
 	const [timKiemThanhVien, setTimKiemThanhVien] = useState('')
-	// Modal đổi CLB cho từng thành viên
+
 	const [hienThiModalDoiCLBSingle, setHienThiModalDoiCLBSingle] = useState(false)
 	const [tvDoi, setTvDoi] = useState<ThanhVien | null>(null)
 	const [clbDichSingle, setClbDichSingle] = useState<string | undefined>(undefined)
 
-	// Columns cho bảng CLB
 	const cotClb: ColumnsType<CLB> = [
 		{ title: 'Ảnh', dataIndex: 'anh', key: 'anh', align: 'center', render: (val: any, record: CLB) => {
 			const src = val || record.anh
@@ -121,7 +117,6 @@ export default function QuanLyCLB() {
 		}
 	]
 
-	// Columns cho đơn đăng ký
 	const cotDon: ColumnsType<DonDangKy> = [
 		{ title: 'Họ tên', dataIndex: 'hoTen', key: 'hoTen', align: 'center', sorter: (a: DonDangKy, b: DonDangKy) => a.hoTen.localeCompare(b.hoTen) },
 		{ title: 'Email', dataIndex: 'email', key: 'email', align: 'center' },
@@ -148,7 +143,6 @@ export default function QuanLyCLB() {
 		}
 	]
 
-	// Columns cho thành viên
 	const cotThanhVien: ColumnsType<ThanhVien> = [
 		{ title: 'Họ tên', dataIndex: 'hoTen', key: 'hoTen', align: 'center' },
 		{ title: 'Email', dataIndex: 'email', key: 'email', align: 'center' },
@@ -161,7 +155,6 @@ export default function QuanLyCLB() {
 		) },
 	]
 
-	// Xử lý CLB
 	function xuLyMoModalClb(clb?: CLB) {
 		setClbHienTai(clb || null)
 		if (clb) {
@@ -194,7 +187,6 @@ export default function QuanLyCLB() {
 			formClb.setFieldsValue({ anh: result })
 		}
 		reader.readAsDataURL(file)
-		// returning false prevents upload; we handle file locally
 		return false
 	}
 
@@ -205,14 +197,12 @@ export default function QuanLyCLB() {
 
 	function xuLyLuuClb() {
 		formClb.validateFields().then(values => {
-			// Xử lý giá trị trước khi lưu: chuyển moment -> string và ảnh
 			const processed: any = { ...values }
 			if (values.ngayThanhLap && values.ngayThanhLap.format) processed.ngayThanhLap = values.ngayThanhLap.format('YYYY-MM-DD')
 			processed.anh = values.anh || previewAnh
 			if (clbHienTai) {
 				setDanhSachClb(prev => prev.map(p => p.id === clbHienTai.id ? { ...p, ...processed } : p))
 				setLichSuThaoTac(prev => [`Admin đã chỉnh sửa CLB ${clbHienTai.ten} vào lúc ${new Date().toLocaleString()}`, ...prev])
-				// reset lỗi ảnh nếu có
 				setAnhThatBai(prev => ({ ...prev, [clbHienTai.id]: false }))
 			} else {
 				const moi: CLB = { id: `clb${Date.now()}`, ...processed }
@@ -221,7 +211,6 @@ export default function QuanLyCLB() {
 				setAnhThatBai(prev => ({ ...prev, [moi.id]: false }))
 			}
 			setHienThiModalClb(false)
-			// reset preview
 			setPreviewAnh(undefined)
 		})
 	}
@@ -231,10 +220,7 @@ export default function QuanLyCLB() {
 		message.success('Xóa CLB thành công')
 	}
 
-	// Xử lý đơn đăng ký
-
 	function xuLyMoModalDon(don?: DonDangKy) {
-		// Mở modal để thêm hoặc sửa
 		setXemOnlyDon(false)
 		setDonHienTai(don || null)
 		if (don) formDon.setFieldsValue(don)
@@ -243,7 +229,6 @@ export default function QuanLyCLB() {
 	}
 
 	function xuLyXemDon(don: DonDangKy) {
-		// Mở modal chỉ xem
 		setXemOnlyDon(true)
 		setDonHienTai(don)
 		formDon.setFieldsValue(don)
@@ -270,14 +255,12 @@ export default function QuanLyCLB() {
 	function xuLyDuyetDon(id: string) {
 		const don = danhSachDon.find(d => d.id === id)
 		if (!don) return message.error('Không tìm thấy đơn')
-		// Thêm thành viên nếu chưa có
 		setDanhSachThanhVien(prev => {
 			const exists = don.email ? prev.find(tv => tv.email === don.email) : undefined
 			if (exists) return prev
 			const moiTV: ThanhVien = { id: `tv${Date.now()}${Math.random()}`, hoTen: don.hoTen, email: don.email, sdt: don.sdt, clbId: don.clbId }
 			return [moiTV, ...prev]
 		})
-		// Cập nhật trạng thái đơn thành Approved (không xóa)
 		setDanhSachDon(prev => prev.map(p => p.id === id ? { ...p, trangThai: 'Approved' } : p))
 		setLichSuThaoTac(prev => [`Admin đã Approved đơn ${id} vào lúc ${new Date().toLocaleString()}`, ...prev])
 		message.success('Đã duyệt đơn')
@@ -286,7 +269,6 @@ export default function QuanLyCLB() {
 	function xuLyDuyetNhieuDon() {
 		if (chonDong.length === 0) return message.warning('Chưa chọn đơn')
 		const donsDuocDuyet = danhSachDon.filter(d => chonDong.includes(d.id))
-		// Thêm thành viên từ các đơn được chọn
 		setDanhSachThanhVien(prev => {
 			const next = [...prev]
 			donsDuocDuyet.forEach(don => {
@@ -296,7 +278,6 @@ export default function QuanLyCLB() {
 			})
 			return next
 		})
-		// Cập nhật trạng thái các đơn đã chọn thành Approved
 		setDanhSachDon(prev => prev.map(p => chonDong.includes(p.id) ? { ...p, trangThai: 'Approved' } : p))
 		setLichSuThaoTac(prev => [`Admin đã Approved ${chonDong.join(', ')} vào lúc ${new Date().toLocaleString()}`, ...prev])
 		setChonDong([])
@@ -310,7 +291,6 @@ export default function QuanLyCLB() {
 
 	function xuLyXacNhanTuChoi() {
 		if (!lyDoTuChoi) { message.error('Vui lòng nhập lý do từ chối'); return }
-		// Cập nhật trạng thái các đơn đã bị từ chối
 		setDanhSachDon(prev => prev.map(p => chonDong.includes(p.id) ? { ...p, trangThai: 'Rejected', ghiChuTuChoi: lyDoTuChoi } : p))
 		setLichSuThaoTac(prev => [`Admin đã Rejected ${chonDong.join(', ')} vào lúc ${new Date().toLocaleString()} với lý do: ${lyDoTuChoi}`, ...prev])
 		setHienThiModalTuChoi(false)
@@ -319,14 +299,11 @@ export default function QuanLyCLB() {
 		message.success('Đã từ chối các đơn đã chọn')
 	}
 
-	// Xử lý xem danh sách thành viên của CLB
 	function xuLyXemThanhVien(clb: CLB) {
-		// Lọc thành viên theo clb.id
 		const thanhVienTheoClb = danhSachThanhVien.filter(tv => tv.clbId === clb.id)
 		Modal.info({ title: `Thành viên của ${clb.ten}`, content: (<div>{thanhVienTheoClb.map(tv => <div key={tv.id}>{tv.hoTen} - {tv.email}</div>)}</div>) })
 	}
 
-	// Bulk chuyển CLB cho thành viên
 	function xuLyMoModalChuyenCLB() {
 		if (chonDong.length === 0) return message.warning('Chưa chọn thành viên')
 		setHienThiModalChuyenCLB(true)
@@ -351,7 +328,6 @@ export default function QuanLyCLB() {
 		message.success('Đã chuyển CLB cho thành viên')
 	}
 
-	// Dữ liệu báo cáo
 	const soLuong = useMemo(() => ({
 		tongClb: danhSachClb.length,
 		pending: danhSachDon.filter(d => d.trangThai === 'Pending').length,
@@ -359,7 +335,6 @@ export default function QuanLyCLB() {
 		rejected: danhSachDon.filter(d => d.trangThai === 'Rejected').length,
 	}), [danhSachClb, danhSachDon])
 
-	// Chuẩn bị dữ liệu cho biểu đồ bằng react-apexcharts
 	const chartCategories = useMemo(() => danhSachClb.map(c => c.ten), [danhSachClb])
 
 	const chartSeries = useMemo(() => {
@@ -388,7 +363,6 @@ export default function QuanLyCLB() {
 		responsive: [{ breakpoint: 600, options: { plotOptions: { bar: { columnWidth: '70%' } }, legend: { position: 'bottom' } } }]
 	}), [chartCategories])
 
-	// Dữ liệu tóm tắt báo cáo theo CLB
 	const reportData = useMemo(() => {
 		return danhSachClb.map(c => {
 			const pending = danhSachDon.filter(d => d.clbId === c.id && d.trangThai === 'Pending').length
