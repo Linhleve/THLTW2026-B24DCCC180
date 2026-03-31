@@ -451,7 +451,6 @@ export default function QuanLyCLB() {
 				</Form>
 			</Modal>
 
-			{/* Modal đơn */}
 			<Modal
 				title={donHienTai ? 'Chi tiết đơn' : 'Thêm đơn'}
 				visible={hienThiModalDon}
@@ -472,7 +471,6 @@ export default function QuanLyCLB() {
 				</Form>
 			</Modal>
 
-			{/* Modal từ chối với lý do */}
 			<Modal title="Từ chối đơn" visible={hienThiModalTuChoi} onCancel={() => setHienThiModalTuChoi(false)} onOk={xuLyXacNhanTuChoi}>
 				<Form layout="vertical">
 					<Form.Item label={`Từ chối ${chonDong.length} đơn`}>
@@ -481,7 +479,6 @@ export default function QuanLyCLB() {
 				</Form>
 			</Modal>
 
-			{/* Modal chuyển CLB */}
 			<Modal title="Chuyển CLB" visible={hienThiModalChuyenCLB} onCancel={() => setHienThiModalChuyenCLB(false)} onOk={xuLyXacNhanChuyenCLB}>
 				<p>Chuyển {chonDong.length} thành viên sang:</p>
 				<Select style={{ width: '100%' }} value={clbDichId} onChange={v => setClbDichId(v)}>
@@ -489,7 +486,6 @@ export default function QuanLyCLB() {
 				</Select>
 			</Modal>
 
-			{/* Modal đổi CLB cho từng thành viên */}
 			<Modal title={tvDoi ? `Đổi CLB cho ${tvDoi.hoTen}` : 'Đổi CLB'} visible={hienThiModalDoiCLBSingle} onCancel={() => setHienThiModalDoiCLBSingle(false)} onOk={xuLyXacNhanDoiClbSingle}>
 				<p>Chuyển thành viên sang CLB:</p>
 				<Select style={{ width: '100%' }} value={clbDichSingle} onChange={v => setClbDichSingle(v)}>
@@ -497,7 +493,6 @@ export default function QuanLyCLB() {
 				</Select>
 			</Modal>
 
-			{/* Modal lịch sử thao tác */}
 			<Modal title="Lịch sử thao tác" visible={hienThiLichSu} onCancel={() => setHienThiLichSu(false)} footer={<Button onClick={() => setHienThiLichSu(false)}>Đóng</Button>}>
 				<div>
 					{lichSuThaoTac.length === 0 ? <div>Chưa có lịch sử</div> : lichSuThaoTac.map((l, idx) => <div key={idx}>{l}</div>)}
