@@ -65,19 +65,19 @@ export default function LapKeHoachDuLich() {
   const [danhSachLichTrinhDaLuu, setDanhSachLichTrinhDaLuu] = useState<LichTrinhDaLuu[]>([]);
   const [lichTrinhDangXem, setLichTrinhDangXem] = useState<LichTrinhDaLuu | null>(null);
 
-  // -- DISCOVER TAB STATE --
+
   const [loaiLoc, setLoaiLoc] = useState<string>('All');
   const [tuyChonSapXep, setTuyChonSapXep] = useState<string>('none');
 
-  // -- ADMIN TAB STATE --
+
   const [hienThiModal, setHienThiModal] = useState(false);
   const [diemDenDangSua, setDiemDenDangSua] = useState<DiemDen | null>(null);
   const [form] = Form.useForm();
 
-  // -- HELPERS --
+  
   const layDiemDenTheoId = (id: string) => danhSachDiemDen.find(d => d.id === id);
 
-  // -- 1. DISCOVER RENDER --
+  
   const danhSachDiemDenDaLocVaSapXep = useMemo(() => {
     let result = [...danhSachDiemDen];
     if (loaiLoc !== 'All') {
@@ -173,8 +173,7 @@ export default function LapKeHoachDuLich() {
     </Space>
   );
 
-  // -- 2. ITINERARY RENDER --
-  // Group lichTrinh by day
+
   const lichTrinhTheoNgay = useMemo(() => {
     const grouped: Record<number, MucLichTrinh[]> = {};
     lichTrinh.forEach(item => {
@@ -373,7 +372,7 @@ export default function LapKeHoachDuLich() {
     </div>
   );
 
-  // -- 3. BUDGET RENDER --
+
   const phanTramSuDung = tongCong.tongChiPhi > 0 ? Math.round((tongCong.tongChiPhi / gioiHanNganSach) * 100) : 0;
   
   const renderNganSach = () => {
@@ -437,7 +436,6 @@ export default function LapKeHoachDuLich() {
     );
   };
 
-  // -- 4. ADMIN RENDER --
   const xuLyLuuQuanTri = async () => {
     try {
       const values = await form.validateFields();
@@ -454,13 +452,11 @@ export default function LapKeHoachDuLich() {
       }
       setHienThiModal(false);
     } catch (e) {
-      // Validate failed
     }
   };
 
   const xuLyXoaQuanTri = (id: string) => {
     setDanhSachDiemDen(danhSachDiemDen.filter(d => d.id !== id));
-    // also remove from lichTrinh if needed
     setLichTrinh(lichTrinh.filter(i => i.idDiemDen !== id));
     message.success('Đã xóa điểm đến!');
   };
