@@ -42,6 +42,12 @@
 		icon: 'OrderedListOutlined',
 		component: './TodoList',
 	},
+	{
+		path: '/quan-ly-khoa-hoc-online',
+		name: 'Quản Lý Khóa Học OnLine',
+		icon: 'OrderedListOutlined',
+		component: './QuanLyKhoaHocOnline',
+	},
 
 	// DANH MUC HE THONG
 	// {
