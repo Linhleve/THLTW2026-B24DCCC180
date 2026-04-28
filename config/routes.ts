@@ -44,10 +44,10 @@
 	},
 
 	{
-		path: '/blog_ca_nhan',
-		name: 'Blog cá nhân',
-		icon: 'BookOutlined',
-		component: './BlogCaNhan',
+		path: '/theodoisuckhoe',
+		name: 'Theo dõi sức khỏe',
+		icon: 'HeartOutlined',
+		component: './TheoDoiSucKhoe',
 	},
 
 	// DANH MUC HE THONG
