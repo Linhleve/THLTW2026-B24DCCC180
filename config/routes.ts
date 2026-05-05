@@ -43,6 +43,13 @@
 		component: './TodoList',
 	},
 
+	{
+		path: '/theo_doi_cong_viec_ca_nhan',
+		name:'TheoDoiCongViecCaNhan',
+		icon:'AppstoreOutlined',
+		component:'./TheoDoiCongViecCaNhan',
+	},
+
 	// DANH MUC HE THONG
 	// {
 	// 	name: 'DanhMuc',
